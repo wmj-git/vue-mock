@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setRefreshToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -24,6 +24,33 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  }
+}
+
+// 登录时数据存入vuex
+function setUserData(commit, data) {
+  if (data.token) {
+    /* commit('SET_TOKEN', data.token.Authorization)
+    setToken(data.token.Authorization) */
+    commit('SET_TOKEN', data.token.Authorization)
+    setToken(data.token.Authorization)
+    commit('SET_REFRESHTOKEN', data.token.refreshAuthorization)
+    setRefreshToken(data.token.refreshAuthorization)
+    commit('SET_RSAPUBLICKEY', data.token.RSAPublicKey)
+  }
+  if (data.user && data.user.roleList) {
+    const _roles = []
+    data.user.roleList.forEach(function(_item) {
+      _roles.push(_item)
+    })
+    commit('SET_ROLES', _roles)
+    commit('SET_NAME', data.user.username)
+    commit('SET_AVATAR', data.user.userDetail.avatar)
+    commit('SET_INTRODUCTION', data.user.createDate)
+    /*   if ('resources' in data) {
+      setResources(data.resources)
+    }
+    setUser(data.user)*/
   }
 }
 
@@ -82,7 +109,8 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
-      commit('RESET_STATE')
+      commit('RESET_STATE', '')
+      commit('RESET_STATE', [])
       resolve()
     })
   }

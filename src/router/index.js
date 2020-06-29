@@ -6,6 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+import TableManage from '@/router/module/table.js'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -30,7 +31,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
+/* export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -42,123 +43,18 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
     redirect: '/dashboard',
     children: [{
-      path: 'dashboard',
+      path: 'video1',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
+  /!* TableManage*!/
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -177,4 +73,90 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-export default router
+export default router*/
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      component: Layout,
+      name: 'gameManage',
+      redirect: '/dynamic-table',
+      alwaysShow: true,
+      meta: {
+        title: '游戏管理',
+        icon: 'component'
+      },
+      children: [
+        {
+          path: 'dynamic-table',
+          component: () => import('@/views/tabledata/version-table'),
+          name: '版本管理',
+          meta: { title: '版本管理', icon: 'table' }
+        },
+        {
+          path: 'drag-table',
+          component: () => import('@/views/tabledata/drag-table'),
+          name: '分享卡片',
+          meta: { title: '分享卡片', icon: 'table' }
+        },
+        {
+          path: 'sidebar-table',
+          component: () => import('@/views/tabledata/sidebar-manage'),
+          name: '侧边栏管理',
+          meta: { title: '侧边栏管理', icon: 'table' }
+        },
+        {
+          path: 'integral-wall',
+          component: () => import('@/views/tabledata/Integral-wall'),
+          name: '积分墙管理',
+          meta: { title: '积分墙管理', icon: 'table' }
+        },
+        {
+          path: 'custom-settings',
+          component: () => import('@/views/tabledata/custom-settings'),
+          name: '自定义配置',
+          meta: { title: '自定义配置', icon: 'table' }
+        },
+        {
+          path: 'share-video',
+          component: () => import('@/views/tabledata/share-video'),
+          name: '分享视频管理',
+          meta: { title: '分享视频管理', icon: 'table' }
+        },
+        {
+          path: 'event-name',
+          component: () => import('@/views/tabledata/event-name'),
+          name: '事件名称管理',
+          meta: { title: '事件名称管理', icon: 'table' }
+        },
+        {
+          path: 'lost-path',
+          component: () => import('@/views/tabledata/lost-path'),
+          name: '流失路径管理',
+          meta: { title: '流失路径管理', icon: 'table' }
+        },
+        {
+          path: 'custom-space',
+          component: () => import('@/views/tabledata/custom-space'),
+          name: '自定义空间',
+          meta: { title: '自定义空间', icon: 'table' }
+        },
+        {
+          path: 'source-manage',
+          component: () => import('@/views/tabledata/source-manage'),
+          name: '资源管理',
+          meta: { title: '资源管理', icon: 'table' }
+        },
+        {
+          path: 'game-manage',
+          component: () => import('@/views/tabledata/game-manage'),
+          name: '小游戏管理',
+          meta: { title: '小游戏管理', icon: 'table' }
+        }
+      ]
+    }
+  ],
+  mode: 'history' // 去除#号
+})
+

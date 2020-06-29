@@ -2,8 +2,8 @@
   <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <breadcrumb class="breadcrumb-container" />
-
+   <!-- <breadcrumb class="breadcrumb-container" />-->
+    <v-tags />
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -28,6 +28,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
   </div>
 </template>
 
@@ -35,11 +36,13 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import vTags from '@/layout/components/Sidebar/Tags'
+import bus from './bus.js'
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    vTags
   },
   computed: {
     ...mapGetters([
@@ -55,6 +58,16 @@ export default {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
+  },
+  created() {
+    // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
+    bus.$on('tags', msg => {
+      const arr = []
+      for (let i = 0, len = msg.length; i < len; i++) {
+        msg[i].name && arr.push(msg[i].name)
+      }
+      this.tagsList = arr
+    })
   }
 }
 </script>
